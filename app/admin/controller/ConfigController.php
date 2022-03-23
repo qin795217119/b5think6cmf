@@ -127,4 +127,25 @@ class ConfigController extends BaseController
     {
         ConfigCache::clear();
     }
+
+
+    /**
+     * 导出excel处理数据及字段
+     * @param $list
+     * @return array
+     */
+    protected function exportBefore($list):array{
+        //对list数据进行处理
+
+        //返回导出的字段及字段名
+        $attributes = [
+            'title'=>'配置标题',
+            'type'=>'配置标识',
+            'style_name'=>'配置类型',
+            'value'=>'配置值',
+            'extra'=>'配置项',
+            'update_time'=>'更新时间',
+        ];
+        return ['list'=>$list,'attributes'=>$attributes];
+    }
 }

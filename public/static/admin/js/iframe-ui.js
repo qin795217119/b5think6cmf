@@ -44,7 +44,6 @@ var table = {
                     removeUrl: bootUrl.removeUrl,
                     removeAllUrl: bootUrl.removeAllUrl,
                     clearCacheUrl: bootUrl.clearCacheUrl,
-                    exportUrl:bootUrl.url,
                     method: 'post',
                     height: undefined,
                     sidePagination: "server",
@@ -77,8 +76,9 @@ var table = {
                     fixedNumber: 0,
                     fixedRightNumber: 0,
                     queryParams: $.table.queryParams,
-                    rowStyle: {},
+                    rowStyle: {}
                 };
+                options.exportUrl = options.url;
                 var options = $.extend(defaults, options);
                 table.options = options;
                 table.config[options.id] = options;

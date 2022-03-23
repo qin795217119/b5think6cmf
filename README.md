@@ -1,56 +1,58 @@
-ThinkPHP 6.0
-===============
+B5ThinkCMF
+=========
 
-> 运行环境要求PHP7.2+，兼容PHP8.1
+### 介绍
+基于 thinkphp 6.0 + bootstrap 3，构架的通用后台开发框架，简洁、易读、方便系统扩展及二次开发。
+系统完全开源，数据库文件在public目录下，超管默认为：admin，123456。
 
-[官方应用服务市场](https://market.topthink.com) | [`ThinkAPI`——官方统一API服务](https://docs.topthink.com/think-api)
+### 系统演示
+地址：http://b5thinkcmf.b5net.com
 
-ThinkPHPV6.0版本由[亿速云](https://www.yisu.com/)独家赞助发布。
+账号：ceshi
 
-## 主要新特性
+密码：123456
 
-* 采用`PHP7`强类型（严格模式）
-* 支持更多的`PSR`规范
-* 原生多应用支持
-* 更强大和易用的查询
-* 全新的事件系统
-* 模型事件和数据库事件统一纳入事件系统
-* 模板引擎分离出核心
-* 内部功能中间件化
-* SESSION/Cookie机制改进
-* 对Swoole以及协程支持改进
-* 对IDE更加友好
-* 统一和精简大量用法
+### 下载地址：
 
-## 安装
+gitee: https://gitee.com/b5net/b5-think-cmf
 
-~~~
-composer create-project topthink/think tp 6.0.*
-~~~
+前端采用java的若依框架前端并进行了一定的修改，使用文档可参考 http://doc.ruoyi.vip/ruoyi/document/qdsc.html
 
-如果需要更新框架使用
-~~~
-composer update topthink/framework
-~~~
+#### 内置功能
 
-## 文档
+1. 人员管理：人员是系统操作者，该功能主要完成系统用户配置。
+2. 组织架构：配置系统组织机构（公司、部门、小组），树结构展现支持。
+3. 菜单管理：配置系统菜单，操作权限，按钮权限标识等。
+4. 角色管理：角色菜单权限分配、数据权限分配。
+5. 登录日志：登录后台记录信息。
+6. 参数配置：多种类型的参数配置。
+7. 通知公告：系统通知公告信息发布维护。
+8. 表单构建：快速构建form表单html代码
+9. 代码生成：一键生成基于表的控制器、模型以及html页面
 
-[完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
 
-## 参与开发
+#### 使用说明
 
-请参阅 [ThinkPHP 核心框架包](https://github.com/top-think/framework)。
+1. 环境推荐使用 PHP 7.4 + Mysql 5.7/8 +Nginx，系统搭建参考thinkphp6官方文档
+2. 基于  thinkphp 6.0  + bootstrap 3构架，未对thinkphp框架进行任何修改。
+3. 系统默认使用DB查询构造器进行数据库操作，若想支持模型操作，只需将BaseModel继承Think/Model
+4. 封装了文件上传、图片上传等标签、快速实现上传
+5. 实现了一键导出excel功能；表单导出（参考人员管理）、全部数据导出（参考参数管理）
 
-## 版权信息
+#### 界面截图
+![Image text](https://gitee.com/b5net/img-folder/raw/master/user.png)
+![Image text](https://gitee.com/b5net/img-folder/raw/master/menu.png)
+![Image text](https://gitee.com/b5net/img-folder/raw/master/struct.png)
+![Image text](https://gitee.com/b5net/img-folder/raw/master/config.png)
+![Image text](https://gitee.com/b5net/img-folder/raw/master/role_menu.png)
+![Image text](https://gitee.com/b5net/img-folder/raw/master/role_datascope.png)
+![Image text](https://gitee.com/b5net/img-folder/raw/master/build.png)
 
-ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
 
-本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
-版权所有Copyright © 2006-2021 by ThinkPHP (http://thinkphp.cn)
 
-All rights reserved。
 
-ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
 
-更多细节参阅 [LICENSE.txt](LICENSE.txt)
+
+
+

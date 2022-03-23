@@ -28,6 +28,12 @@ class IndexController extends BaseController
         return $this->render();
     }
 
+    public function downloadAction(){
+        $fileName = $this->request->get('fileName','');
+        if(!$fileName) return $this->toError('参数错误');
+
+        header('location:'.$fileName);
+    }
 
     /**
      * 根据登录session获取菜单

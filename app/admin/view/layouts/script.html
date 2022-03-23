@@ -1,0 +1,16 @@
+<script>
+    var aUrl = "{:url('')}"; //当前地址
+    var oasUrl="{:url('add')}"; //添加地址
+    var oesUrl="{:url('edit')}"; //编辑地址
+    var upImgUrl="{:url('common/uploadimg')}";
+    var upFileUrl="{:url('common/uploadfile')}";
+    var bootUrl={
+        url: "{:url('index')}",//table列表地址
+        createUrl: decodeURIComponent("{:url('add',['id'=>'%id%'])}"),
+        updateUrl: decodeURIComponent("{:url('edit',['id'=>'%id%'])}"),
+        removeUrl: "{:url('drop')}",//删除地址
+        removeAllUrl: "{:url('dropall')}",//批量删除地址
+        statusUrl:"{:url('setstatus')}",//状态改变地址
+        downUrl:"{:url('index/download')}",
+    }
+</script>

@@ -204,12 +204,4 @@ class BaseModel
             return [];
         }
     }
-
-    /**
-     * 字段和显示的对应名称，可用于导出和验证的字段名显示
-     * @return array
-     */
-    protected function attributes():array{
-        return [];
-    }
 }

@@ -52,7 +52,7 @@ class ExceptionHandle extends Handle
     public function render($request, Throwable $e): Response
     {
         // 添加自定义异常处理机制
-        if($request->isJson()){
+        if($request->isJson() || $request->isAjax()){
             return Result::error($e->getMessage(),500);
         }
         // 其他错误交给系统处理
