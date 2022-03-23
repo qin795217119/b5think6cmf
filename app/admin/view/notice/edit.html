@@ -1,0 +1,51 @@
+{extend name="layouts:form"/}
+
+{block name="css_common"}
+    {asset:css name="summernote" /}
+{/block}
+{block name="js_common"}
+    {asset:js name="summernote" /}
+{/block}
+
+{block name="content"}
+<form class="form-horizontal m" id="form-edit">
+    <input type="hidden" name="id" value="{$info.id}">
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">公告标题：</label>
+        <div class="col-sm-9">
+            <input type="text" name="title" value="{$info.title}" class="form-control" placeholder="请输入公告标题" required autocomplete="off"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">公告内容：</label>
+        <div class="col-sm-9">
+            <textarea class="summernote_content hide" id="content" name="content">{$info.content}</textarea>
+            <div class="summernote" data-place="请输入公告内容" id="contentEditor"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">状态：</label>
+        <div class="col-sm-9">
+            <label class="radio-box"><input type="radio" name="status" value="0" {eq name="info.status" value="0"}checked{/eq}/> 无效</label>
+            <label class="radio-box"><input type="radio" name="status" value="1" {eq name="info.status" value="1"}checked{/eq}/> 有效</label>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+    function submitHandler() {
+        if ($.validate.form()) {
+            if($("#contentEditor").summernote('isEmpty')){
+                $.modal.msgError('请填写内容')
+                return false;
+            }
+            var sHTML = $('#contentEditor').summernote('code');
+            $("#content").val(sHTML);
+            $.operate.save(oesUrl, $('#form-edit').serialize());
+        }
+    }
+</script>
+{/block}

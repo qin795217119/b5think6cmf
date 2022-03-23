@@ -1,0 +1,128 @@
+{extend name="layouts:form"/}
+
+{block name="css_common"}
+    {asset:css name="dragula" /}
+{/block}
+{block name="js_common"}
+    {asset:js name="dragula" /}
+{/block}
+
+{block name="content"}
+<form class="form-horizontal m" id="form-edit">
+    <input type="hidden" name="id" value="{$info.id}">
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">单图片上传：</label>
+        <div class="col-sm-8">
+            <input type="hidden" name="img" value="" id="img" required>
+            {upload:img name="img_upload" link="1" cat="demo" tips="格式为jpg,jpeg,png,gif；大小不能超过10M" data="$info['img']"/}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">多图片图片上传：</label>
+        <div class="col-sm-8">
+            <input type="hidden" name="imgs" value="" id="imgs" required>
+            {upload:img name="imgs_upload" title="选择图片" link="1" cat="demo" multi="5" tips="格式为jpg,jpeg,png,gif；大小不能超过10M；最多上传5张；可拖动排序" data="$info['imgs']"/}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">裁剪上传：</label>
+        <div class="col-sm-8">
+            <input type="hidden" name="crop" value="" id="crop" required>
+            {upload:img name="crop_upload" link="1" cat="demo" multi="2" crop="1" tips="格式为jpg,jpeg,png,gif；大小不能超过10M；最多上传2张；可拖动排序" data="$info['crop']"/}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">上传视频：</label>
+        <div class="col-sm-8">
+            <input type="hidden" name="video" value="" id="video" required>
+            {upload:video name="video_upload" title="上传视频" place="输入视频地址或本地上传" cat="demo" tips="格式为mp4；大小不能超过100M" data="$info['video']"/}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">单文件：</label>
+        <div class="col-sm-8">
+            <input type="hidden" name="file" value="" id="file" required>
+            {upload:file name="file_upload" title="本地上传" exts="txt|rar|doc|png" link="1" cat="demo" tips="格式为txt|rar|doc|png；大小不能超过100M" data="$info['file']"/}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label is-required">多文件文件：</label>
+        <div class="col-sm-8">
+            <input type="hidden" name="files" value="" id="files" required>
+            {upload:file name="files_upload" multi="3" inputname="1" exts="txt|rar|doc|png" link="1" cat="demo" tips="格式为txt|rar|doc|png；最大上传3个；大小不能超过100M" data="$info['files']"/}
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+    <script src="__STATIC__/admin/js/uploader.js?a=122"></script>
+    <script>
+        function submitHandler() {
+            var img = '';
+            var imgs = [];
+            var crop = [];
+            var file = [];
+            var files = [];
+
+            if($("input[name='img_upload[]']").length>0){
+                $("input[name='img_upload[]']").each(function () {
+                    var imgval = $(this).val();
+                    if(imgval){
+                        img = imgval;
+                    }
+                })
+            }
+            $("#img").val(img);
+
+            if($("input[name='imgs_upload[]']").length>0){
+                $("input[name='imgs_upload[]']").each(function () {
+                    var imgval = $(this).val();
+                    if(imgval){
+                        imgs.push(imgval)
+                    }
+                })
+            }
+            $("#imgs").val(imgs.join(','));
+
+            if($("input[name='crop_upload[]']").length>0){
+                $("input[name='crop_upload[]']").each(function () {
+                    var imgval = $(this).val();
+                    if(imgval){
+                        crop.push(imgval)
+                    }
+                })
+            }
+            $("#crop").val(crop.join(','));
+
+            $("#video").val($("#videourl_video_upload").val());
+
+            if($("input[name='file_upload[]']").length>0){
+                $("input[name='file_upload[]']").each(function () {
+                    var imgval = $(this).val();
+                    if(imgval){
+                        file = imgval
+                    }
+                })
+            }
+            $("#file").val(file);
+
+            if($("input[name='files_upload[]']").length>0){
+                $("input[name='files_upload[]']").each(function () {
+                    var imgval = $(this).val();
+                    if(imgval){
+                        files.push(imgval)
+                    }
+                })
+            }
+            $("#files").val(files.join(','));
+
+            if ($.validate.form("",{ignore:""})) {
+
+                $.operate.save(oesUrl, $('#form-edit').serialize());
+            }
+        }
+    </script>
+{/block}
