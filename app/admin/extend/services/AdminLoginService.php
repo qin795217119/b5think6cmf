@@ -22,10 +22,10 @@ use think\response\Json;
 class AdminLoginService
 {
     //错误信息
-    protected $message = '';
+    public $message = '';
 
     //用户信息
-    protected $_user;
+    public $_user;
 
     //是否登录保存cookie
     public $cookie = false;
@@ -45,9 +45,10 @@ class AdminLoginService
         if (!$user) {
             return Result::error('用户名或密码错误');
         }
-        if ($user['password'] != md5($data['password'])) {
-            return Result::error('用户名或密码错误');
+        if(!$this->validatePassword($data['password'])){
+            return Result::error($this->message);
         }
+
         if (!$this->loginSession($user['id'])) {
             return Result::error($this->message);
         }
@@ -143,6 +144,22 @@ class AdminLoginService
         Cookie::delete('adminLoginCookie');
     }
 
+    /**
+     * 验证密码
+     * @param $password
+     * @return bool
+     */
+    public function validatePassword($password):bool{
+        if(!$this->_user){
+            $this->message = '用户信息获取失败';
+            return false;
+        }
+        if($this->_user['password']!=md5($password)){
+            $this->message = '密码错误';
+            return false;
+        }
+        return true;
+    }
     /**
      * 获取用户信息
      * @return mixed
