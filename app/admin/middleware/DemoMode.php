@@ -25,7 +25,7 @@ class DemoMode
 
         //不走演示判断的控制器、方法
         $notAuthController = ['public'];
-        $notAuthAction = ['tree'];
+        $notAuthAction = ['tree','lockscreen'];
 
         if (in_array($controller, $notAuthController) || in_array($action, $notAuthAction) || substr($action,0,4) === 'ajax') {
             return $next($request);
