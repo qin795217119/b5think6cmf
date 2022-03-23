@@ -12,6 +12,7 @@ use app\admin\middleware\AdminAuth;
 use app\admin\middleware\AdminLogin;
 
 use app\admin\middleware\DemoMode;
+use app\common\cache\ConfigCache;
 use app\common\helpers\Result;
 use think\App;
 use think\facade\View;
@@ -40,6 +41,9 @@ class BaseController
     public function __construct(App $app){
         $this->app = $app;
         $this->request = $app->request;
+        if($this->request->isGet() && !$this->request->isAjax()){
+            View::assign('system_name',ConfigCache::get('sys_config_sysname'));
+        }
     }
 
 

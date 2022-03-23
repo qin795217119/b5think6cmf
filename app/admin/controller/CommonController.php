@@ -105,7 +105,7 @@ class CommonController extends BaseController
                 return Result::error('旧密码不正确');
             }
             Admin::bUpdate(['id'=>$adminInfo['id'],'password'=>md5($data['newpass'])]);
-            return Result::error('密码修改成功');
+            return Result::success('密码修改成功');
         }else{
             return $this->render();
         }
