@@ -495,7 +495,7 @@ $(function() {
 
     // 锁定屏幕
     $('#lockScreen').on('click', function () {
-    	location.href  = lockUrl;
+    	location.href  = $(this).data('url');
     });
 
     // 页签刷新按钮
