@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2022-03-23 08:57:59
+Date: 2022-03-23 11:39:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -431,7 +431,7 @@ CREATE TABLE `test_goods` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of test_goods
