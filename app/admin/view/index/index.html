@@ -181,7 +181,7 @@
 
     /* 修改密码 */
     function rePass() {
-        var url = mUrl + '/common/repass';
+        var url = "{:url('common/repass')}";
         $.modal.open("修改密码", url, '770', '380');
     }
 
