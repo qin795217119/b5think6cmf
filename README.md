@@ -18,7 +18,7 @@ gitee: https://gitee.com/b5net/b5-think-cmf
 
 前端采用java的若依框架前端并进行了一定的修改，使用文档可参考 http://doc.ruoyi.vip/ruoyi/document/qdsc.html
 
-#### 内置功能
+### 内置功能
 
 1. 人员管理：人员是系统操作者，该功能主要完成系统用户配置。
 2. 组织架构：配置系统组织机构（公司、部门、小组），树结构展现支持。
@@ -31,7 +31,7 @@ gitee: https://gitee.com/b5net/b5-think-cmf
 9. 代码生成：一键生成基于表的控制器、模型以及html页面
 
 
-#### 使用说明
+### 使用说明
 
 1. 环境推荐使用 PHP 7.4 + Mysql 5.7/8 +Nginx，系统搭建参考thinkphp6官方文档
 2. 基于  thinkphp 6.0  + bootstrap 3构架，未对thinkphp框架进行任何修改。
@@ -39,7 +39,7 @@ gitee: https://gitee.com/b5net/b5-think-cmf
 4. 封装了文件上传、图片上传等标签、快速实现上传
 5. 实现了一键导出excel功能；表单导出（参考人员管理）、全部数据导出（参考参数管理）
 
-#### 界面截图
+### 界面截图
 ![Image text](https://gitee.com/b5net/img-folder/raw/master/user.png)
 ![Image text](https://gitee.com/b5net/img-folder/raw/master/menu.png)
 ![Image text](https://gitee.com/b5net/img-folder/raw/master/struct.png)
