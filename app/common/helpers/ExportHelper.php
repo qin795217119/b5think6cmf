@@ -73,9 +73,8 @@ class ExportHelper
             return $savePath.'/'.$fileName;
         }else{
             //直接浏览器下载
-            $filename = '成绩表.xlsx';
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="'.$filename.'"');
+            header('Content-Disposition: attachment;filename="'.$fileName.'"');
             header('Cache-Control: max-age=0');
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save('php://output');
