@@ -67,13 +67,9 @@ trait TraitActionHelper
             //导出操作
             if($isExport){
                 //结果查询后的处理
-                if (method_exists($this, 'exportBefore')) {
-                    $export_data = $this->exportBefore($list);
-                    $excel_path = (new ExportHelper($export_data))->export();
-                    return Result::success($excel_path);
-                }else{
-                    return Result::error('未配置导出过滤方法：exportBefore');
-                }
+                $export_data = $this->exportBefore($list);
+				$excel_path = (new ExportHelper($export_data))->export();
+				return Result::success($excel_path);
             }else{
                 return Result::success('', $list, ['total' => $count]);
             }
@@ -494,5 +490,14 @@ trait TraitActionHelper
     protected function deleteBefore(array $data)
     {
         return true;
+    }
+	
+	/**
+     * 导出配置，需配置导出字段 字段名=>标题
+     * @param array $list
+     * @return array[]
+     */
+    protected function exportBefore(array $list):array{
+        return ['list'=>$list,'attributes'=>[]];
     }
 }
