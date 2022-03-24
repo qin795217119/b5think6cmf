@@ -241,7 +241,7 @@ trait TraitActionHelper
             //删除前
             $res = $this->deleteBefore($info);
             if ($res !== true) {
-                return $res;
+                return Result::error($res);
             }
 
             $result = $this->model::bDelete($id);
@@ -489,7 +489,7 @@ trait TraitActionHelper
     /**
      * 删除前操作
      * @param array $data
-     * @return bool|\think\response\Json
+     * @return bool|string
      */
     protected function deleteBefore(array $data)
     {

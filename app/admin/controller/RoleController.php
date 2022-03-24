@@ -112,13 +112,13 @@ class RoleController extends BaseController
     /**
      * 删除前判断
      * @param array $data
-     * @return bool|\think\response\Json
+     * @return bool|string
      */
     protected function deleteBefore(array $data)
     {
         $root_id = Config::get('system.root_role_id');
         if($data['id'] == $root_id){
-            return Result::error('默认超管角色无法删除');
+            return '默认超管角色无法删除';
         }
         return true;
     }
