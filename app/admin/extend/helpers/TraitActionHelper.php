@@ -136,7 +136,7 @@ trait TraitActionHelper
             //验证
             if ($this->validate ?? false) {
                 //验证前数据处理
-                $data = $this->validateBefore($data,'add');
+                $data = $this->validateBefore($data,'edit');
                 if(!is_array($data)){
                     return Result::error($data);
                 }
