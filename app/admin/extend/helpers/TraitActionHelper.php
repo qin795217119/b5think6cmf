@@ -317,7 +317,7 @@ trait TraitActionHelper
         //表单的条件 in 的条件
         if (isset($params['in']) && is_array($params['in'])) {
             foreach ($params['in'] as $key => $value) {
-                if ($key && trim($value) !== '') {
+                if ($key && $value) {
                     $query = $query->whereIn($key, $value);
                 }
             }
