@@ -10,6 +10,7 @@ namespace app\admin\extend\helpers;
 use app\common\helpers\ExportHelper;
 use app\common\helpers\Result;
 use app\Request;
+use think\db\Query;
 use think\facade\Db;
 use think\response\Json;
 
@@ -42,6 +43,10 @@ trait TraitActionHelper
 
             $query = Db::table($this->model::tableName());
             $query = $this->indexWhere($query, $params);
+
+            //操作查询对象，可以进行语句处理以及数据权限处理
+            $query = $this->indexQuery($query);
+
             //是否分页
             if (!$isTree && !$isExport) {
                 $pageSize = intval($params['pageSize'] ?? 10);
@@ -424,6 +429,16 @@ trait TraitActionHelper
         return $params;
     }
 
+    /**
+     * 首页查询语句处理，可以用来自定义以及数据权限处理
+     * @param Query $query
+     * @return Query
+     */
+    protected function indexQuery(Query $query):Query{
+        //进行权限处理
+//        $query = \app\admin\extend\helpers\DataScopeHelper::queryDataScope($query,'struct_id','user_id');
+        return $query;
+    }
     /**
      * 首页列表查询完的操作，方便对列表进行处理
      * @param array $list
