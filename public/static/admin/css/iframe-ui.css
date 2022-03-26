@@ -153,12 +153,12 @@
 .b5uploadmainbox .uploadimg_link .btn{position: absolute;top: 0;right: 0}
 .b5uploadlistbox{overflow: hidden}
 
-.b5uploadimgbox .b5upload_li{width: 120px;margin: 15px 15px 0 0;border: 1px solid #eee;float: left}
-.b5uploadimgbox .b5uploadimg_con{width:100%;padding-bottom: 100%;position: relative;background-color: #F2F2F2;overflow: hidden;background-size: contain;background-position: center;background-repeat: no-repeat}
-.b5uploadimgbox .b5uploadimg_cell{position: absolute;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;overflow: hidden }
-.b5uploadimgbox .b5uploadimg_cell img{max-width: 118px;max-height: 118px;display: inline-block}
-.b5uploadimgbox .b5uploadimg_footer{display: flex;justify-content: space-between}
-.b5uploadimgbox .b5uploadimg_footer a{font-size: 13px;display: inline-block;padding: 5px;}
+.b5upload_li{width: 120px;margin: 15px 15px 0 0;border: 1px solid #eee;float: left}
+.b5uploadimg_con{width:100%;padding-bottom: 100%;position: relative;background-color: #F2F2F2;overflow: hidden;background-size: contain;background-position: center;background-repeat: no-repeat}
+.b5uploadimg_cell{position: absolute;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;overflow: hidden }
+.b5uploadimg_cell img{max-width: 118px;max-height: 118px;display: inline-block}
+.b5uploadimg_footer{display: flex;justify-content: space-between}
+.b5uploadimg_footer a{font-size: 13px;display: inline-block;padding: 5px;}
 
 
 .videourl_input{max-width: 400px}
