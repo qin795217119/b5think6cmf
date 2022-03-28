@@ -45,7 +45,14 @@ trait TraitActionHelper
             $query = $this->indexWhere($query, $params);
 
             //操作查询对象，可以进行语句处理以及数据权限处理
-            $query = $this->indexQuery($query);
+            $extend = [];
+            $queryResult = $this->indexQuery($query);
+            if(is_array($queryResult)){
+                $query = $queryResult['query'];
+                $extend = $queryResult['extend']??[];
+            }else{
+                $query = $queryResult;
+            }
 
             //是否分页
             if (!$isTree && !$isExport) {
@@ -71,7 +78,7 @@ trait TraitActionHelper
 				$excel_path = (new ExportHelper($export_data))->export();
 				return Result::success($excel_path);
             }else{
-                return Result::success('', $list, ['total' => $count]);
+                return Result::success('', $list, ['total' => $count,'extend'=>$extend]);
             }
         } else {
             return $this->indexRender($request);
@@ -428,9 +435,9 @@ trait TraitActionHelper
     /**
      * 首页查询语句处理，可以用来自定义以及数据权限处理
      * @param Query $query
-     * @return Query
+     * @return mixed 可以返回query对象，也可以一个数组['query'=>$query,'extend'=>[xxx]]  extend将会在ajax中返回
      */
-    protected function indexQuery(Query $query):Query{
+    protected function indexQuery(Query $query){
         //进行权限处理
 //        $query = \app\admin\extend\helpers\DataScopeHelper::queryDataScope($query,'struct_id','user_id');
         return $query;
