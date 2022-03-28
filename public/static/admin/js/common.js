@@ -308,9 +308,9 @@ function select2Default(id,change,value){
     change = value || false
     var option = select2Option($("#"+id));
     if(change){
-        $("#"+id).select2(option).val(value);
-    }else{
         $("#"+id).select2(option).val(value).trigger('change');
+    }else{
+        $("#"+id).select2(option).val(value);
     }
 }
 //自定义事件方法
