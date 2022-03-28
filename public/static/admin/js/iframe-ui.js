@@ -190,7 +190,7 @@ var table = {
                                 row.state = $.inArray(row[column], table.rememberSelectedIds[table.options.id]) !== -1;
                             })
                         }
-                        return { rows: res.data, total: res.total };
+                          return { rows: res.data, total: res.total, extend: res.hasOwnProperty('extend')?res.extend:{}};
                     }
                 } else {
                     $.modal.alertWarning(res.msg);
