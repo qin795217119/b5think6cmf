@@ -788,7 +788,7 @@ var table = {
                 });
             },
             // 确认窗体
-            confirm: function (content, callback) {
+            confirm: function (content, callback,callback1) {
                 $.modal.layerinit(function (layer) {
                     layer.confirm(content, {
                         icon: 3,
@@ -798,6 +798,11 @@ var table = {
                         layer.close(index);
                         if($.common.isNotEmpty(callback)){
                             $.common.callBackOp(callback);
+                        }
+                    },function (index){
+                        layer.close(index);
+                        if($.common.isNotEmpty(callback1)){
+                            $.common.callBackOp(callback1);
                         }
                     });
                 });
