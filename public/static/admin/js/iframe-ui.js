@@ -762,15 +762,15 @@ var table = {
             },
             // 错误提示
             alertError: function(content,callback) {
-                $.modal.alert(content, modal_status.FAIL);
+                $.modal.alert(content, modal_status.FAIL,callback);
             },
             // 成功提示
             alertSuccess: function(content,callback) {
-                $.modal.alert(content, modal_status.SUCCESS);
+                $.modal.alert(content, modal_status.SUCCESS,callback);
             },
             // 警告提示
             alertWarning: function(content,callback) {
-                $.modal.alert(content, modal_status.WARNING);
+                $.modal.alert(content, modal_status.WARNING,callback);
             },
             // 关闭窗体
             close: function (index) {
