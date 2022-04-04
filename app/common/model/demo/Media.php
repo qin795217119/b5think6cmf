@@ -8,7 +8,7 @@ declare (strict_types = 1);
 
 namespace app\common\model\demo;
 
-use app\admin\BaseModel;
+use app\common\BaseModel;
 
 class Media extends BaseModel
 {

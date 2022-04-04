@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types=1);
 
-namespace app\admin;
+namespace app\common;
 
 
 use think\facade\Db;

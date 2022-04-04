@@ -8,7 +8,7 @@ declare (strict_types = 1);
 
 namespace app\common\model;
 
-use app\admin\BaseModel;
+use app\common\BaseModel;
 use app\common\helpers\Functions;
 use app\common\helpers\IpLocation\IpLocation;
 use app\common\helpers\UserAgent\Agent;

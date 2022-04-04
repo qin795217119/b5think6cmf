@@ -8,7 +8,7 @@ declare (strict_types = 1);
 
 namespace app\common\model;
 
-use app\admin\BaseModel;
+use app\common\BaseModel;
 
 class Menu extends BaseModel
 {
