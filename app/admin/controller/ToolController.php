@@ -105,7 +105,7 @@ class ToolController extends BaseController
 
         //获取表的字段
         $dbname = env('database.database');
-        $result = Db::query("select column_name,column_comment,data_type from INFORMATION_SCHEMA.Columns where table_name='".$table."' and table_schema='".$dbname."'");
+        $result = Db::query("select COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE from INFORMATION_SCHEMA.Columns where table_name='".$table."' and table_schema='".$dbname."'");
 
         //创建视图文件夹
         $view_path = str_replace('/',DIRECTORY_SEPARATOR,$root.'admin/view/'.$path_path_name.'/');
@@ -120,10 +120,10 @@ class ToolController extends BaseController
         $temp_index_str = fread($tem_index_f,filesize($temp_index_path));
         $html='';
         foreach ($result as $value){
-            if($value['column_name'] =='id' || $value['column_name'] =='create_time' || $value['column_name'] =='update_time'){
+            if($value['COLUMN_NAME'] =='id' || $value['COLUMN_NAME'] =='create_time' || $value['COLUMN_NAME'] =='update_time'){
                 continue;
             }
-            $html.="                    {field: '".$value['column_name']."', title: '".($value['column_comment']?:$value['column_name'])."', align: 'center'},\r\n";
+            $html.="                    {field: '".$value['COLUMN_NAME']."', title: '".($value['COLUMN_COMMENT']?:$value['COLUMN_NAME'])."', align: 'center'},\r\n";
         }
         $temp_index_str = str_replace('___REPLACE___',$html,$temp_index_str);
         $gen_index=fopen($gen_index_path,'w');
@@ -136,13 +136,13 @@ class ToolController extends BaseController
         $temp_add_str = fread($tem_add_f,filesize($temp_add_path));
         $html='';
         foreach ($result as $value){
-            if($value['column_name'] =='id' || $value['column_name'] =='create_time' || $value['column_name'] =='update_time'){
+            if($value['COLUMN_NAME'] =='id' || $value['COLUMN_NAME'] =='create_time' || $value['COLUMN_NAME'] =='update_time'){
                 continue;
             }
             $html.='    <div class="form-group">
-        <label class="col-sm-2 control-label is-required">'.($value['column_comment']?:$value['column_name']).'：</label>
+        <label class="col-sm-2 control-label is-required">'.($value['COLUMN_COMMENT']?:$value['COLUMN_NAME']).'：</label>
         <div class="col-sm-9">
-            <input type="text" name="'.$value['column_name'].'" value="" class="form-control" required autocomplete="off"/>
+            <input type="text" name="'.$value['COLUMN_NAME'].'" value="" class="form-control" required autocomplete="off"/>
         </div>
     </div>'."\r\n";
         }
@@ -157,13 +157,13 @@ class ToolController extends BaseController
         $temp_edit_str = fread($tem_edit_f,filesize($temp_edit_path));
         $html='';
         foreach ($result as $value){
-            if($value['column_name'] =='id' || $value['column_name'] =='create_time' || $value['column_name'] =='update_time'){
+            if($value['COLUMN_NAME'] =='id' || $value['COLUMN_NAME'] =='create_time' || $value['COLUMN_NAME'] =='update_time'){
                 continue;
             }
             $html.='    <div class="form-group">
-        <label class="col-sm-2 control-label is-required">'.($value['column_comment']?:$value['column_name']).'：</label>
+        <label class="col-sm-2 control-label is-required">'.($value['COLUMN_COMMENT']?:$value['COLUMN_NAME']).'：</label>
         <div class="col-sm-9">
-            <input type="text" name="'.$value['column_name'].'" value="{$info.'.$value['column_name'].'}" class="form-control" required autocomplete="off"/>
+            <input type="text" name="'.$value['COLUMN_NAME'].'" value="{$info.'.$value['COLUMN_NAME'].'}" class="form-control" required autocomplete="off"/>
         </div>
     </div>'."\r\n";
         }
