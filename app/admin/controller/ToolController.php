@@ -140,8 +140,8 @@ class ToolController extends BaseController
                 continue;
             }
             $html.='    <div class="form-group">
-        <label class="col-sm-2 control-label is-required">'.($value['COLUMN_COMMENT']?:$value['COLUMN_NAME']).'：</label>
-        <div class="col-sm-9">
+        <label class="col-sm-3 control-label is-required">'.($value['COLUMN_COMMENT']?:$value['COLUMN_NAME']).'：</label>
+        <div class="col-sm-8">
             <input type="text" name="'.$value['COLUMN_NAME'].'" value="" class="form-control" required autocomplete="off"/>
         </div>
     </div>'."\r\n";
@@ -161,8 +161,8 @@ class ToolController extends BaseController
                 continue;
             }
             $html.='    <div class="form-group">
-        <label class="col-sm-2 control-label is-required">'.($value['COLUMN_COMMENT']?:$value['COLUMN_NAME']).'：</label>
-        <div class="col-sm-9">
+        <label class="col-sm-3 control-label is-required">'.($value['COLUMN_COMMENT']?:$value['COLUMN_NAME']).'：</label>
+        <div class="col-sm-8">
             <input type="text" name="'.$value['COLUMN_NAME'].'" value="{$info.'.$value['COLUMN_NAME'].'}" class="form-control" required autocomplete="off"/>
         </div>
     </div>'."\r\n";
