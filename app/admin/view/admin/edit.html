@@ -1,5 +1,12 @@
 {extend name="layouts:form"/}
 
+{block name="css_common"}
+    {asset:css name="select2" /}
+{/block}
+{block name="js_common"}
+    {asset:js name="select2" /}
+{/block}
+
 {block name="content"}
 <div class="main-content">
     <form class="form-horizontal m" id="form-edit">
@@ -29,6 +36,17 @@
                     <input type="checkbox" name="role" value="{$value.id}" required {if in_array($value['id'],$roleId)}checked{/if}/> {$value.name}
                 </label>
                 {/foreach}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">岗位职位：</label>
+            <div class="col-sm-8">
+                <select name="pos" class="select2" data-width="90%"  id="posSelect" required>
+                    <option value="">选择岗位</option>
+                    {foreach $posList as $value}
+                    <option value="{$value.id}" {eq name="posId" value="$value['id']"}selected{/eq}>{$value.name}</option>
+                    {/foreach}
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -92,6 +110,7 @@
             if ($.validate.form()) {
                 var roles = $.form.selectCheckeds("role");
                 $("#roles").val(roles);
+                // $("#pos").val($('#posSelect').val().join(',')); //多选时
                 $.operate.save(oesUrl, $('#form-edit').serialize());
             }
         }

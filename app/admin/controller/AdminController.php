@@ -10,14 +10,17 @@ namespace app\admin\controller;
 
 use app\admin\BaseController;
 use app\admin\extend\helpers\TraitActionHelper;
+use app\admin\extend\services\AdminPosService;
 use app\admin\extend\services\AdminRoleService;
 use app\admin\extend\services\AdminStructService;
 use app\admin\extend\services\StructService;
 use app\admin\validate\AdminValidate;
+use app\common\cache\PositionCache;
 use app\common\helpers\Result;
 use app\common\model\Admin;
 use app\common\model\Role;
 use think\facade\Config;
+use think\facade\Db;
 
 class AdminController extends BaseController
 {
@@ -26,6 +29,51 @@ class AdminController extends BaseController
     protected $model = Admin::class;
     protected $validate = AdminValidate::class;
 
+    /**
+     * 选择人员视图
+     * @return string
+     */
+    public function treeAction(){
+        $mult = $this->request->get('mult',0);
+        $ids = $this->request->get('ids', '');
+        return $this->render('',['user_ids'=>$ids,'mult'=>$mult]);
+    }
+
+    /**
+     * 人员视图获取人员列表
+     * @return string|\think\response\Json
+     * @throws \Exception
+     */
+    public function ajaxtreelistAction(){
+        if(!$this->request->isPost()){
+            return $this->toError('请求类型错误');
+        }
+        $params = [];
+        $post = $this->request->post();
+
+        $userIdList = $this->listStructParse($post);
+        if($userIdList === false){
+            $params['where']['id'] = 0;
+        }elseif($userIdList){
+            $params['in']['id'] = implode(',', array_unique($userIdList));
+        }
+        $params['like']['realname'] = $post['like']['realname']??'';
+        $params['where']['status'] = 1;
+
+        $params['field'] = 'id,realname,status,create_time';
+        $query = Db::table($this->model::tableName());
+        $query = $this->indexWhere($query, $params);
+        $root_id = Config::get('system.root_admin_id');
+        $query = $query->where('id','<>',$root_id);
+        $pageSize = intval($post['pageSize'] ?? 10);
+        $pageNum = intval($post['pageNum'] ?? 1);
+        $pageNum = $pageNum < 1 ? 1 : $pageNum;
+        $count = $query->count();
+        $query = $query->page($pageNum, $pageSize);
+        $list = $query->select()->toArray();
+        $list = $this->indexAfter($list);
+        return Result::success('操作成功',$list, ['total' => $count]);
+    }
     /**
      * 首页渲染
      * @return string
@@ -57,9 +105,30 @@ class AdminController extends BaseController
         }
 
         //组织架构处理
-        $contains = $params['contains']??0;
+        $structUserList = $this->listStructParse($params);
+        if($structUserList === false){
+            $params['where']['id'] = 0;
+        }elseif($structUserList){
+            $userIdList = array_merge($userIdList,$structUserList);
+        }
+
+        if($userIdList){
+            $params['in']['id'] = implode(',', array_unique($userIdList));
+        }
+        return $params;
+    }
+
+    /**
+     * 列表查询时，组织架构处理
+     * @param $post
+     * @return array|false
+     */
+    protected function listStructParse($post){
+        $userIdList = [];
+        //组织架构处理
+        $contains = $post['contains']??0;
         $root_struct_id = Config::get('system.root_struct_id');
-        $struct_id = $params['structId'] ?? '';
+        $struct_id = $post['structId'] ?? '';
         if ($struct_id) {
             $structList = [];
             if($contains){
@@ -70,22 +139,14 @@ class AdminController extends BaseController
                 }
             }else{
                 $structList[] = $struct_id;
-
             }
             if($structList){
                 //获取组织下的用户
                 $list = (new AdminStructService())->getAdminIdByStructId($structList);
-                if(!$list){
-                    $params['where']['id'] = 0;
-                    return $params;
-                }
-                $userIdList = array_merge($userIdList,$list);
+                $userIdList = $list?:false;
             }
         }
-        if($userIdList){
-            $params['in']['id'] = implode(',', array_unique($userIdList));
-        }
-        return $params;
+        return $userIdList;
     }
 
     /**
@@ -97,13 +158,28 @@ class AdminController extends BaseController
     {
         $structService = new AdminStructService();
         $roleService = new AdminRoleService();
+        $posService = new AdminPosService();
         foreach ($list as $key => $value) {
             $structInfo = $structService->getStructByAdminId($value['id'], true);
-            $value['struct_name'] = $structInfo ? $structInfo['name'] : '';
+            $struct_name = '';
+            if($structInfo){
+                $struct_name = $structInfo['name'];
+                if($structInfo['parent_name']){
+                    $parent_name = explode(',',$structInfo['parent_name']);
+                    $parent_name = array_pop($parent_name);
+                    $struct_name = $parent_name.'/'.$struct_name;
+                }
+            }
+            $value['struct_name'] = $struct_name;
 
             $roleList = $roleService->getRoleByAdmin($value['id'], true);
             $roleList = $roleList ? array_column($roleList, 'name') : [];
             $value['role_name'] = implode(',', $roleList);
+
+            $posInfo = $posService->getPosByAdmin($value['id'],true);
+            $value['pos_name'] = $posInfo?$posInfo['name']:'';
+            $value['pos_key'] = $posInfo?$posInfo['poskey']:'';
+
             $list[$key] = $value;
         }
         return $list;
@@ -116,7 +192,8 @@ class AdminController extends BaseController
     protected function addRender(): string
     {
         $roleList = Role::bSelect([], ['listsort' => 'asc']);
-        return $this->render('', ['roleList' => $roleList]);
+        $posList = PositionCache::lists();
+        return $this->render('', ['roleList' => $roleList,'posList'=>$posList]);
     }
 
     /**
@@ -129,7 +206,9 @@ class AdminController extends BaseController
         $structInfo = (new AdminStructService())->getStructByAdminId($info['id'], true);
         $roleId = (new AdminRoleService())->getRoleByAdmin($info['id']);
         $roleList = Role::bSelect([], ['listsort' => 'asc']);
-        return $this->render('', ['info'=>$info,'roleList' => $roleList,'structInfo'=>$structInfo,'roleId'=>$roleId]);
+        $posList = PositionCache::lists();
+        $posId = (new AdminPosService())->getPosByAdmin($info['id']);
+        return $this->render('', ['info'=>$info,'roleList' => $roleList,'structInfo'=>$structInfo,'roleId'=>$roleId,'posList'=>$posList,'posId'=>$posId]);
     }
 
     /**
@@ -181,9 +260,11 @@ class AdminController extends BaseController
         if ($type == 'add' || $type == 'edit') {
             $roles = $this->request->post('roles', '');
             $struct = $this->request->post('struct', '');
+            $pos = $this->request->post('pos', '');
 
             (new AdminRoleService())->update($data['id'], $roles);
             (new AdminStructService())->update($data['id'], $struct);
+            (new AdminPosService())->update($data['id'], $pos);
         }
     }
 
@@ -212,5 +293,8 @@ class AdminController extends BaseController
 
         //删除管理员组织部门
         (new AdminStructService())->deleteByAdmin($data['id']);
+
+        //删除管理员岗位
+        (new AdminPosService())->deleteByAdmin($data['id']);
     }
 }
