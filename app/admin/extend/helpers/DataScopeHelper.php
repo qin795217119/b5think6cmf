@@ -54,7 +54,7 @@ class DataScopeHelper
             if ($structList && $userId) {
                 $query->whereOr([[$userField, '=', $userId], [$structField, '=', $structList]]);
             } elseif ($structList) {
-                $query->where($structField, $structList);
+                $query->whereIn($structField, $structList);
             } elseif ($userId) {
                 $query->where($userField, $userId);
             }
@@ -122,7 +122,7 @@ class DataScopeHelper
         $is_admin = LoginAuthHelper::adminLoginInfo('info.is_admin');
         if ($is_admin == 1) return true; //超管返回全部权限
 
-        $dataScope = LoginAuthHelper::adminLoginInfo('info.dataScope');//用户角色列表
+        $dataScope = LoginAuthHelper::adminLoginInfo('dataScope');//用户数据权限权值
         if ($dataScope < 1) return false;
 
         if (!(31 & $dataScope)) return false;//无效的键值
