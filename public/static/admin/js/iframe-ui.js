@@ -61,6 +61,7 @@ var table = {
                     firstLoad: true,
                     showFooter: false,
                     search: false,
+                    showToolbar:true,
                     showSearch: true,
                     showPageGo: false,
                     showRefresh: true,
@@ -79,6 +80,13 @@ var table = {
                     rowStyle: {}
                 };
                 options.exportUrl = options.url;
+                if(!options.showToolbar){
+                    options.showExport = false;
+                    options.showRefresh = false;
+                    options.showToggle = false;
+                    options.showColumns = false;
+                    options.showSearch = false;
+                }
                 var options = $.extend(defaults, options);
                 table.options = options;
                 table.config[options.id] = options;
