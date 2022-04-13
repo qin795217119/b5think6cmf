@@ -34,9 +34,8 @@ class DemoMode
         $noCheckAction = ['index'];
         if(($request->isPost() || $request->isJson()) && !in_array($action,$noCheckAction)){
             $model = ConfigCache::get('demo_mode');
-            $admin_id = LoginAuthHelper::adminLoginInfo('info.id');
-            $root_id = Config::get('system.root_admin_id');
-            if($model == '1' && $admin_id!=$root_id){
+            $is_admin = LoginAuthHelper::adminLoginInfo('info.is_admin');
+            if($model == '1' && !$is_admin){
                 return Result::error('演示模式，无法此操作', 500);
             }
         }
